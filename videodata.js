@@ -3,41 +3,61 @@ var fs = require('fs'),
 
 var data = JSON.parse(fs.readFileSync('data/routes.json', encoding='utf8')),
 	features = [],
-	output;
+	output,
+  minDate,
+  maxDate;
 
 data.forEach(function(d,i) {
 
-  try{
-
   	var routePoints = d.route,
-  		startDate = parseInt(routePoints[0].timestamp),
-  		endDate = parseInt(routePoints[routePoints.length-1].timestamp),
+  		startMillDate = parseInt(routePoints[0].timestamp),
+  		endMillDate = parseInt(routePoints[routePoints.length-1].timestamp),
+      startDate,
+      endDate,
   		lineString = [],
   		feature;
+
     
-  	startDate = new Date(startDate);
-    startDate.toISOString();
 
-  	endDate = new Date(endDate);
-    endDate.toISOString();
+    startDate = new Date(startMillDate);
+    endDate = new Date(endMillDate);
 
-  	var properties = {teamid: d.teamid, method: d.transport_method, start: startDate, end: endDate}
+    if(!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())){
 
-  	routePoints.forEach(function(d){
-  		var lat = parseFloat(d.coordinates.latitude),
-        		lon = parseFloat(d.coordinates.longitude);
-        		lineString.push([lon, lat])
-  	})
+      if(!minDate){
+        minDate = startMillDate
+      }
+      else{
+        minDate = startMillDate < minDate ? startMillDate : minDate;
+      } 
 
-  	feature = turf.linestring(lineString, properties)
-  	features.push(feature)
-  }
-  catch(e){
-    console.log(e)
-  }
+      if(!maxDate){
+        maxDate = endMillDate
+      }
+      else{
+        maxDate = endMillDate > maxDate ? endMillDate : maxDate;
+      } 
 
-})
+      startDate.toISOString();
+      endDate.toISOString();
 
+    	var properties = {teamid: d.teamid, method: d.transport_method, start: startDate, end: endDate, startDateM:startMillDate}
+
+    	routePoints.forEach(function(e,g){
+    		var lat = parseFloat(e.coordinates.latitude),
+          		lon = parseFloat(e.coordinates.longitude);
+          		lineString.push([lon, lat])
+              if(g == 0){
+                lineString.push([lon, lat])
+              }
+    	});
+
+    	feature = turf.linestring(lineString, properties)
+    	features.push(feature)
+    }
+  })
+
+features.sort(function(a, b){return a.properties.startDateM-b.properties.startDateM})
 output = turf.featurecollection(features)
 
 fs.writeFile("output/videodata.json", JSON.stringify(output, null, 2), function(err) {
