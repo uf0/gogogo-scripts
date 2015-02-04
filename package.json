@@ -1,0 +1,28 @@
+{
+  "name": "gogogo-scripts",
+  "version": "0.0.1",
+  "description": "gogogo project scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uf0/gogogo-scripts.git"
+  },
+  "keywords": [
+    "gogogo",
+    "crowdsourcing",
+    "meausuring",
+    "amsterdam"
+  ],
+  "author": "uf0",
+  "license": "GNU GPL3",
+  "bugs": {
+    "url": "https://github.com/uf0/gogogo-scripts/issues"
+  },
+  "homepage": "https://github.com/uf0/gogogo-scripts",
+  "dependencies": {
+    "request": "~2.53.0"
+  }
+}
