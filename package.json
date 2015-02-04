@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/uf0/gogogo-scripts",
   "dependencies": {
-    "request": "~2.53.0"
+    "request": "~2.53.0",
+    "turf": "~1.3.4"
   }
 }
