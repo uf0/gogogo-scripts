@@ -4,9 +4,9 @@ var fs = require('fs'),
     xmldom = require('xmldom');
 
 var teams = JSON.parse(fs.readFileSync('output/routesperteam.json', encoding='utf8'));
-//var team = teams[1];
-teams.forEach(function(team, i){
+//var team = teams[2];
 
+teams.forEach(function(team, i){
 
   var routes = team.values;
       teamid = team.key;
@@ -19,6 +19,7 @@ teams.forEach(function(team, i){
   })
 
   points = turf.featurecollection(points);
+
   var tin = turf.tin(points, 'z');
 
   var width = 595,
@@ -35,10 +36,10 @@ teams.forEach(function(team, i){
 
   var projection = d3.geo.mercator(),
       path = d3.geo.path().projection(projection),
-      b = path.bounds(tin),
+      b = path.bounds(points),
       s = 100 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
       t = [width/ 2, height / 2],
-      center = d3.geo.centroid(tin);
+      center = d3.geo.centroid(points);
 
   projection.scale(s).translate(t).center(center)
 
@@ -70,7 +71,7 @@ teams.forEach(function(team, i){
 
 
   var svgGraph = d3.select('body')
-  fs.writeFileSync('output/' + teamid + '.svg', svgGraph.html());
+  fs.writeFileSync('output/posters/' + teamid + '.svg', svgGraph.html());
   console.log("file saved! " + teamid)
 })
 
