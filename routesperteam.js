@@ -15,7 +15,7 @@ var routesbyteam = d3.nest()
                     })
                     .entries(routes.features)
 
-fs.writeFile("output/routesperteam.json", JSON.stringify(routesbyday, null, 2), function(err) {
+fs.writeFile("output/routesperteam.json", JSON.stringify(routesbyteam, null, 2), function(err) {
   if(err) {
     console.log(err);
   }else{
