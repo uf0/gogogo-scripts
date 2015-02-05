@@ -1,7 +1,6 @@
 var fs = require('fs'),
     turf = require('turf'),
-    d3 = require('d3'),
-    _ = require("underscore");
+    d3 = require('d3');
 
 var routes = JSON.parse(fs.readFileSync('output/videodata.json', encoding='utf8'));
 
