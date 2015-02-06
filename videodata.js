@@ -57,6 +57,8 @@ data.forEach(function(d,i) {
     }
   })
 
+console.log(minDate, maxDate)
+
 features.sort(function(a, b){return a.properties.startDateM-b.properties.startDateM})
 output = turf.featurecollection(features)
 
